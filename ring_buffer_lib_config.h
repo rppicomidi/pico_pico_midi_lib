@@ -5,7 +5,7 @@
  * In this example, the ring buffers are only used for UART1, so a buffer can only
  * be changed in the UART1 IRQ handler context and the main non-IRQ context. Therefore,
  * critical sections only have to manage the the UART1 IRQ, not all IRQs.
- * 
+ *
  * MIT License
  *
  * Copyright (c) 2022 rppicomidi
@@ -27,9 +27,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
- */ 
- 
+ *
+ */
+
 #ifndef RING_BUFFER_LIB_CONFIG
 #define RING_BUFFER_LIB_CONFIG
 

@@ -20,7 +20,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  */
 
 #include <stdio.h>
@@ -122,7 +122,7 @@ void rppicomidi::Pico_pico_midi_lib::init(void (*midi_cb_)(uint8_t *buffer, uint
         volatile uint32_t dr = uart_get_hw(midi_uart)->dr;
         (void)dr;
         status = uart_get_hw(midi_uart)->ris; // the reason this irq happened
-    }    
+    }
     uart_set_irq_enables(midi_uart, true, true);
     uart_get_hw(instance().midi_uart)->imsc &= ~UART_UARTIMSC_TXIM_BITS;
 }
