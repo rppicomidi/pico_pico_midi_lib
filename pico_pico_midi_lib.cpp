@@ -77,7 +77,7 @@ void rppicomidi::Pico_pico_midi_lib::on_uart_irq()
 }
 
 rppicomidi::Pico_pico_midi_lib::Pico_pico_midi_lib() :
-    midi_cb{nullptr}, cmd_cb{nullptr}
+    midi_cb{nullptr}, cmd_cb{nullptr}, err_cb{nullptr}
 {
     reset_rx_data();
     midi_uart = uart1;
@@ -108,11 +108,13 @@ rppicomidi::Pico_pico_midi_lib::Pico_pico_midi_lib() :
 }
 
 void rppicomidi::Pico_pico_midi_lib::init(void (*midi_cb_)(uint8_t *buffer, uint8_t buflen, uint8_t cable_num),
-                            void (*cmd_cb_)(uint8_t header, uint8_t* buffer, uint16_t length))
+                            void (*cmd_cb_)(uint8_t header, uint8_t* buffer, uint16_t length),
+                            void (*err_cb_)(uint8_t header, uint8_t* buffer, uint16_t length))
 {
     // Set up callbacks
     midi_cb = midi_cb_;
     cmd_cb = cmd_cb_;
+    err_cb = err_cb_;
     // Flush the RX fifo in case there is any data in it now
     uint32_t status = uart_get_hw(midi_uart)->ris; // the reason this irq happened
     while (status & UART_UARTRIS_RXRIS_BITS) {
@@ -176,6 +178,14 @@ void rppicomidi::Pico_pico_midi_lib::poll_rx_buffer()
                 printf("checksum error %02x != %02x\r\n", rx_checksum, rx[rx_idx]);
                 for (uint8_t jdx=0; jdx < log_idx; jdx++) {
                     printf("%08lx ", log_err[jdx]);
+                }
+                printf("\r\n");
+                printf("Message received=%02x ", rx_header);
+                for (uint8_t jdx=0; jdx < expected_rx_buffer_bytes; jdx++) {
+                    printf("%02x ", rx[jdx]);
+                }
+                if (err_cb) {
+                    err_cb(rx_header, rx, expected_rx_buffer_bytes);
                 }
                 printf("\r\n");
             }

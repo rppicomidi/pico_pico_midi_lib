@@ -63,7 +63,8 @@ public:
      * called if a command message is received
      */
     void init(void (*midi_cb_)(uint8_t *buffer, uint8_t buflen, uint8_t cable_num),
-        void (*cmd_cb)(uint8_t header, uint8_t* buffer, uint16_t length));
+        void (*cmd_cb)(uint8_t header, uint8_t* buffer, uint16_t length),
+        void (*err_cb)(uint8_t header, uint8_t* buffer, uint16_t length));
 
     /**
      * @brief poll the UART RX buffer and call the appropriate callback
@@ -109,6 +110,7 @@ private:
     // registered callback functions
     void (*midi_cb)(uint8_t *buffer, uint8_t buflen, uint8_t cable_num);
     void (*cmd_cb)(uint8_t header, uint8_t* buffer, uint16_t length);
+    void (*err_cb)(uint8_t header, uint8_t* buffer, uint16_t length);
 
     // UART IRQ handler
     static void on_uart_irq();
