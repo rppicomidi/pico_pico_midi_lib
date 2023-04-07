@@ -61,6 +61,8 @@ public:
      * called if a MIDI message is received
      * @param cmd_cb is a pointer to the callback function that gets
      * called if a command message is received
+     * @param err_cb is a pointer to the callback function that gets
+     * called if there is a checksum error
      */
     void init(void (*midi_cb_)(uint8_t *buffer, uint8_t buflen, uint8_t cable_num),
         void (*cmd_cb)(uint8_t header, uint8_t* buffer, uint16_t length),
@@ -149,17 +151,6 @@ private:
     static const uint PICO_PICO_MIDI_LIB_BAUD_RATE=921600;
     static const uint8_t MIN_MIDI_MESSAGE_HEADER=0x10;
     static const uint8_t MAX_MIDI_MESSAGE_HEADER=0x3F;
-#if 0
-    static const uint8_t REQUEST_CORE_DEV_INFO=0x40;
-    static const uint8_t RETURN_CORE_DEV_INFO=0x41;
-    static const uint8_t REQUEST_DEV_STRING_IDXS=0x42;
-    static const uint8_t RETURN_DEV_STRING_IDXS=0x43;
-    static const uint8_t REQUEST_DEV_LANGIDS=0x44;
-    static const uint8_t RETURN_DEV_LANGIDS=0x45;
-    static const uint8_t REQUEST_DEV_STRING=0x46;
-    static const uint8_t RETURN_DEV_STRING=0x47;
-    static const uint8_t RESYNCHRONIZE=0x48;
-#endif
 };
 
 }
